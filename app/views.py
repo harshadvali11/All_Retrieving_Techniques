@@ -4,6 +4,7 @@ from django.shortcuts import render
 from app.models import *
 
 from django.db.models import Q
+from django.http import HttpResponse
 
 def display_topics(request):
     topics=Topic.objects.all()
@@ -17,7 +18,7 @@ def display_webpages(request):
     webpages=Webpage.objects.all()
     webpages=Webpage.objects.filter(Q(name='Virat') | Q(url__startswith='https'))
     webpages=Webpage.objects.filter(Q(name='Rahul') & Q(url__startswith='https'))
-    
+    webpages=Webpage.objects.all()
     d={'webpages':webpages}
     return render(request,'display_webpages.html',d)
 
@@ -46,3 +47,57 @@ def display_access(request):
     
     d={'LAO':LAO}
     return render(request,'display_access.html',d)
+
+
+
+
+
+def update_webpage(request):
+
+    #Webpage.objects.filter(name='Dhoni').update(url='https://MSD.in')
+    #Webpage.objects.filter(topic_name='Cricket').update(url='https://IndianTeam.in')
+    #Webpage.objects.filter(name='Dhoni MSD').update(url='https://MSD.in')
+
+    #Webpage.objects.filter(name='Dhoni').update(topic_name='BCCI Cricket')
+    #Webpage.objects.filter(name='Dhoni').update(topic_name='Rugby')
+    #Webpage.objects.update_or_create(name='Abc',defaults={'url':'http://ABCDE.com'})
+    
+    #Webpage.objects.update_or_create(topic_name='Rugby',defaults={'url':'http://Rugby.com'})
+    #Webpage.objects.update_or_create(name='Abc',defaults={'url':'http://ABCDE.com'})
+    CTO=Topic.objects.get(topic_name='Cricket')
+    
+    
+    #Webpage.objects.update_or_create(name='Dhoni',defaults={'topic_name':CTO})
+    Webpage.objects.update_or_create(name='Pandya',defaults={'topic_name':CTO,'url':'http://pandya.com'})
+    
+
+
+
+    
+    
+    webpages=Webpage.objects.all()
+    d={'webpages':webpages}
+    return render(request,'display_webpages.html',d)
+
+
+
+def delete_webpage(request):
+    #Webpage.objects.filter(name='Rahul').delete()
+
+    Webpage.objects.all().delete()
+    
+    webpages=Webpage.objects.all()
+    d={'webpages':webpages}
+    return render(request,'display_webpages.html',d)
+
+
+
+
+
+
+
+
+
+
+
+
